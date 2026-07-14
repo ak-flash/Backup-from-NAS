@@ -1,0 +1,50 @@
+{
+    "source_path": "\\\\FILESERVER\\Data\\Photo",
+    "usb_drive_letter": "",
+    "usb_target_folder": "Immich-Backup",
+    "local_target_path": "",
+    "backup_subfolder": "backup",
+    "sync_folders": [
+        {
+            "source": "backups",
+            "destination": "backups"
+        },
+        {
+            "source": "upload",
+            "destination": "upload"
+        },
+        {
+            "source": "library",
+            "destination": "library"
+        },
+        {
+            "source": "external-library",
+            "destination": "external-library"
+        }
+    ],
+    "verify_extensions": [
+        "*.jpg",
+        "*.jpeg",
+        "*.png",
+        "*.heic",
+        "*.mp4",
+        "*.mov",
+        "*.gif",
+        "*.dng",
+        "*.arw",
+        "*.cr2",
+        "*.webp",
+        "*.avif",
+        "*.tiff",
+        "*.bmp",
+        "*.raf",
+        "*.nef"
+    ],
+    "dump_retention_days": 30,
+    "verify": false,
+    "count_files_on_check": false,
+    "show_robocopy_progress": true,
+    "logs_folder": "logs",
+    "log_max_size_mb": 10,
+    "log_retention_days": 90
+}
