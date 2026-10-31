@@ -95,7 +95,8 @@
 
 | Параметр | По умолчанию | Описание |
 |---------|-------------|----------|
-| `source_path` | `\\FILESERVER\Data\Photo` | Путь к источнику (NAS) |
+| `source_path` | `\\FILESERVER\Data\Photo` | Основной путь к источнику (NAS) |
+| `additional_sources` | `[]` | Дополнительные источники: `source` — путь, `destination` — папка назначения |
 | `usb_drive_letter` | `""` | Буква USB-диска (если пусто — интерактивный выбор) |
 | `usb_target_folder` | `Immich-Backup` | Имя папки на USB |
 | `local_target_path` | `""` | Локальная папка на ПК для бэкапа (если заполнено — USB не используется) |
@@ -117,6 +118,9 @@
 ```json
 {
   "source_path": "\\\\FILESERVER\\Data\\Photo",
+  "additional_sources": [
+    {"source": "\\\\192.168.1.30\\workspace", "destination": "Backup"}
+  ],
   "usb_drive_letter": "",
   "usb_target_folder": "Immich-Backup",
   "local_target_path": "",

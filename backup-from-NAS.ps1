@@ -39,8 +39,13 @@ $BACKUP_FOLDER = $CONFIG.usb_target_folder
 $DATE = Get-Date -Format "yyyy-MM-dd"
 $TIMESTAMP_START = Get-Date
 
-# Folders to sync: source (relative to $SOURCE) -> destination (relative to $USB)
-$SYNC_FOLDERS = $CONFIG.sync_folders | ForEach-Object { @{ Src = $_.source; Dst = $_.destination } }
+$SYNC_FOLDERS = @($CONFIG.sync_folders | ForEach-Object {
+    @{ SourceRoot = $SOURCE; Src = $_.source; Dst = $_.destination }
+})
+
+$SYNC_FOLDERS += @($CONFIG.additional_sources | ForEach-Object {
+    @{ SourceRoot = $_.source; Src = "."; Dst = $_.destination }
+})
 
 # File extensions for CRC verification
 $VERIFY_EXTENSIONS = $CONFIG.verify_extensions
@@ -531,17 +536,10 @@ Cleanup-OldLogs -LogFolder $LOG_FOLDER_PATH
 # ============================================================
 Write-Step "[2/4]" "Checking NAS availability"
 
-if (!(Test-Path $SOURCE)) {
-    Write-Err "NAS unavailable: $SOURCE"
-    Write-Err "Check network connection to FILESERVER"
-    "ERR: NAS unavailable: $SOURCE" | Out-File -Append $LOG_FILE
-    exit 1
-}
-
-# Check each folder
+# Check each source folder
 $allFoldersOk = $true
 foreach ($folder in $SYNC_FOLDERS) {
-    $path = Join-Path $SOURCE $folder.Src
+    $path = Join-Path $folder.SourceRoot $folder.Src
     if (Test-Path $path) {
         if ($COUNT_FILES_ON_CHECK) {
             $count = (Get-ChildItem -Path $path -Recurse -File -ErrorAction SilentlyContinue | Measure-Object).Count
@@ -581,7 +579,7 @@ $folderIndex = 0
 
 foreach ($folder in $SYNC_FOLDERS) {
     $folderIndex++
-    $srcPath = Join-Path $SOURCE $folder.Src
+    $srcPath = Join-Path $folder.SourceRoot $folder.Src
     
     # Build destination path with optional subfolder
     if ($BACKUP_SUBFOLDER) {

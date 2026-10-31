@@ -4,6 +4,12 @@
     "usb_target_folder": "Immich-Backup",
     "local_target_path": "",
     "backup_subfolder": "backup",
+    "additional_sources": [
+        {
+            "source": "\\\\192.168.1.30\\workspace",
+            "destination": "Backup"
+        }
+    ],
     "sync_folders": [
         {
             "source": "backups",
